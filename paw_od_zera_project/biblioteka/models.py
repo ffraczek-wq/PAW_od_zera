@@ -66,5 +66,14 @@ class Osoba(models.Model):
     plec = models.CharField(max_length=1, choices=(('M', 'Mężczyzna'), ('K', 'Kobieta')), default='M')
     stanowisko = models.ForeignKey(Stanowisko, null=True, blank=True, on_delete=models.SET_NULL)
 
+    def __str__(self):
+        return f"Osoba:{self.imie}  {self.nazwisko}"
+    
+
+class Stanowisko(models.Model):
+    nazwa = models.CharField(max_length=100)
+    opis = models.TextField(blank=True)
+    
+
 
 
