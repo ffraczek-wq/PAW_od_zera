@@ -58,3 +58,13 @@ class Book(models.Model):
     def __str__(self):
         return self.title
         
+
+
+class Osoba(models.Model):
+    imie = models.CharField(max_length=50)
+    nazwisko = models.CharField(max_length=50)
+    plec = models.CharField(max_length=1, choices=(('M', 'Mężczyzna'), ('K', 'Kobieta')), default='M')
+    stanowisko = models.ForeignKey(Stanowisko, null=True, blank=True, on_delete=models.SET_NULL)
+
+
+
