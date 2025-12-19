@@ -1,8 +1,5 @@
 from django.db import models
 
-
-# Create your models here.
-
 # Lista wyboru miesięcy wydania
 MONTHS = models.IntegerChoices(
     'Miesiace',
@@ -57,23 +54,30 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
-        
-
-
+    
+PLCIE = models.IntegerChoices(
+    'Plcie',
+    'Kobieta Mezczyzna Inna'
+)
+   
 class Osoba(models.Model):
-    imie = models.CharField(max_length=50)
-    nazwisko = models.CharField(max_length=50)
-    plec = models.CharField(max_length=1, choices=(('M', 'Mężczyzna'), ('K', 'Kobieta')), default='M')
-    stanowisko = models.ForeignKey(Stanowisko, null=True, blank=True, on_delete=models.SET_NULL)
-
+    PLEC_WYBOR = (
+        ("K", "kobieta"),
+        ("M", "mezczyzna"),
+        ("I", "inna")
+    )
+    imie = models.CharField(max_length=50, blank = False, null = False)
+    nazwisko = models.CharField(max_length=100, blank = False, null = False)
+    plec = models.IntegerField(choices=PLCIE.choices, default=PLCIE.Inna)
+    stanowisko = models.ForeignKey('Stanowisko', on_delete=models.CASCADE)
+    data_dodania = models.DateField(auto_now_add=True, editable= False)
+    
     def __str__(self):
-        return f"Osoba:{self.imie}  {self.nazwisko}"
+        return f"Osoba: {self.imie} {self.nazwisko}"
     
-
+    class Meta:
+        ordering = ['nazwisko']
+    
 class Stanowisko(models.Model):
-    nazwa = models.CharField(max_length=100)
-    opis = models.TextField(blank=True)
-    
-
-
-
+    nazwa = models.CharField(max_length=70, blank = False, null = False)
+    opis = models.TextField(blank = True, null = True) 
