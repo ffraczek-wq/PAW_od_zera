@@ -1,20 +1,17 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Genre, Author, Book, Osoba, Stanowisko
 
-from .models import Genre, Author, Book
+class OsobaAdmin(admin.ModelAdmin):
+    list_display = ['imie' , 'nazwisko' , 'stanowisko']
+    list_filter = ["stanowisko" , "data_dodania"]
+    
+    
+class StanowiskoAdmin(admin.ModelAdmin):
+    list_filter = ["nazwa"]
 
 admin.site.register(Genre)
 admin.site.register(Author)
 admin.site.register(Book)
-
-class OsobaAdmin(admin.ModelAdmin):
-    # zmienna list_display przechowuje listę pól, które mają się wyświetlać w widoku listy danego modelu w panelu administracynym
-    list_display = ["imie" , "nazwisko" , "stanowisko"]
-
-# ten obiekt też trzeba zarejestrować w module admin
-admin.site.register(Osoba, OsobaAdmin)
-
-class OsobaAdmin(admin.ModelAdmin):
-    list_display = ["imie" , "nazwisko" , "stanowisko"]
-    list_filter = ["stanowisko" , "data_dodania"]
+admin.site.register(Osoba , OsobaAdmin)
+admin.site.register(Stanowisko , StanowiskoAdmin)
